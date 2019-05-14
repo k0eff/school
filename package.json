@@ -4,9 +4,6 @@
   "description": "School project",
   "main": "index.js",
   "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/k0eff/school.git"
@@ -17,6 +14,26 @@
     "url": "https://github.com/k0eff/school/issues"
   },
   "homepage": "https://github.com/k0eff/school#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js",
+    "ts:start": "node --inspect=5858 -r ts-node/register server.ts",
+    "ts:watch": "nodemon",
+    "build": "tsc"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules"
+    ],
+    "watch": [
+      "src"
+    ],
+    "exec": "npm run ts:start",
+    "ext": "ts"
+  },
   "dependencies": {
     "body-parser": "1.19.0",
     "express": "4.16.4",
