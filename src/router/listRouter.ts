@@ -36,8 +36,21 @@ router.get("/type/:name", (req: Request, res: Response) => {
 });
 
 /**
- * @method TODO: Get List options by type
+ * @method Get List options by ListType
  */
+
+router.get("/list/:listTypeId", (req: Request, res: Response) => {
+  let listTypeId: string = req.params.listTypeId;
+
+  List.find({ listTypeId: listTypeId })
+    .populate("listTypeId")
+    .then(listTypes => {
+      res.json(listTypes);
+    })
+    .catch(e => {
+      res.status(400).json(e);
+    });
+});
 
 /**
  * @method Post List Type
@@ -67,7 +80,40 @@ router.post("/type", (req: Request, res: Response) => {
 });
 
 /**
- * @method TODO: Post list option
+ * @method Post list option
  */
+router.post("/list", (req: Request, res: Response) => {
+  let { value, descr, listTypeId } = req.body;
+
+  ListType.find({ _id: listTypeId }).then(LTItem => {
+    if (Array.isArray(LTItem) && LTItem.length > 0) {
+      // If given listTypeId exists - proceed with logic
+
+      List.find({ listTypeId, value }).then(LItem => {
+        if (Array.isArray(LItem) && LItem.length < 1) {
+          // If given listTypeId and value DO NOT exist - proceed with logic. This means we will not make a duplicate value
+
+          let newList = new List({
+            value,
+            descr,
+            listTypeId
+          })
+            .save()
+            .then(item => {
+              res.json(item);
+            })
+            .catch(e => res.status(400).json(e));
+        } else {
+          res.status(400).json({
+            error:
+              "There already is a List option with the same value and listTypeId "
+          });
+        }
+      });
+    } else {
+      res.status(400).json({ error: "Given listTypeId does not exist" });
+    }
+  });
+});
 
 export default router;
