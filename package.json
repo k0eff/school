@@ -15,7 +15,7 @@
   "homepage": "https://github.com/k0eff/school#readme",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "ts:start": "ts-node-dev --respawn --transpileOnly  index.ts",
+    "ts:start": "ts-node-dev --respawn --transpile-only  index.ts",
     "ts:watch": "nodemon",
     "build": "tsc"
   },

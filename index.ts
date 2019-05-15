@@ -2,22 +2,37 @@ import express from "express";
 import * as bodyParser from "body-parser";
 import * as envConfig from "./config.json";
 import clc from "cli-color";
+import mongoose from "mongoose";
+
+import listRouter from "./src/router/listRouter";
 
 const app = express();
 const fallbackPort = 4444;
 
+// Inject Body Parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get("/test", (req, res) => {
+// Set up DB Connection
+mongoose
+  .connect(envConfig.mongo.connstring, {
+    useNewUrlParser: true
+  })
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log(err));
+
+app.get("/", (req, res) => {
   res.send("It works!");
 });
+
+app.use("/list", listRouter);
 
 const port = process.env.PORT || envConfig.APPPORT || fallbackPort;
 app.listen(port, () =>
   console.log(
     clc.red("!!! "),
     clc.blue(" Server started listening on port:"),
-    clc.black.bgYellowBright(` ${port} `)
+    clc.black.bgYellowBright(` ${port} `),
+    " "
   )
 );
