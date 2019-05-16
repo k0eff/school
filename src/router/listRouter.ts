@@ -6,7 +6,7 @@ import ListRelation from "../model/listRelation";
 import { Error } from "mongoose";
 
 /**
- * @method Get List option data by id
+ * @method Get List Type data by id
  */
 router.get("/type/id/:id", (req: Request, res: Response) => {
   let id: string = req.params.id;
@@ -36,7 +36,36 @@ router.get("/type/:name", (req: Request, res: Response) => {
 });
 
 /**
- * @method Get List options by ListType
+ * @method Get List options by ListType Name
+ */
+
+router.get(
+  "/list/listTypeName/:listTypeName",
+  (req: Request, res: Response) => {
+    let listTypeName: string = req.params.listTypeName;
+
+    ListType.find({ name: listTypeName }).then(items => {
+      if (Array.isArray(items) && items.length > 0) {
+        let listTypeId: string = "";
+        items.map(item => {
+          listTypeId = item.id;
+        });
+
+        List.find({ listTypeId: listTypeId })
+          .then(listTypes => {
+            res.json(listTypes);
+          })
+          .catch(e => {
+            res.status(400).json(e);
+          });
+      } else {
+      }
+    });
+  }
+);
+
+/**
+ * @method Get List options by ListTypeId
  */
 
 router.get("/list/:listTypeId", (req: Request, res: Response) => {
