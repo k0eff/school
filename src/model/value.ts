@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-const ListSchema: mongoose.Schema = new Schema(
+const ValueSchema: mongoose.Schema = new Schema(
   {
-    listTypeId: {
+    paramId: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: "ListType"
+      ref: "Param"
     },
 
     value: {
@@ -19,9 +19,9 @@ const ListSchema: mongoose.Schema = new Schema(
     }
   },
   {
-    collection: "List"
+    collection: "Value"
   }
 );
 
-const ListModel = mongoose.model("List", ListSchema);
-export default ListModel;
+const ValueModel = mongoose.model("Value", ValueSchema);
+export default ValueModel;

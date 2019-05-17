@@ -4,7 +4,7 @@ import * as envConfig from "./config.json";
 import clc from "cli-color";
 import mongoose from "mongoose";
 
-import listRouter from "./src/router/listRouter";
+import ParametersRouter from "./src/router/ParametersRouter";
 
 const app = express();
 const fallbackPort = 4444;
@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
   res.send("It works!");
 });
 
-app.use("/list", listRouter);
+app.use("/params", ParametersRouter);
 
 const port = process.env.PORT || envConfig.APPPORT || fallbackPort;
 app.listen(port, () =>

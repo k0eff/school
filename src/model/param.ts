@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-const ListTypeSchema = new Schema(
+const ParamSchema = new Schema(
   {
     name: {
       type: String,
@@ -9,10 +9,10 @@ const ListTypeSchema = new Schema(
     }
   },
   {
-    collection: "ListType",
+    collection: "Param",
     timestamps: true
   }
 );
 
-const ListTypeModel = mongoose.model("ListType", ListTypeSchema);
-export default ListTypeModel;
+const ParamModel = mongoose.model("Param", ParamSchema);
+export default ParamModel;

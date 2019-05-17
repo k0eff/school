@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-const ListRelationSchema = new Schema(
+const ValueRelationSchema = new Schema(
   {
     LeftRel: {
       type: Schema.Types.ObjectId,
@@ -13,9 +13,9 @@ const ListRelationSchema = new Schema(
     }
   },
   {
-    collection: "ListRelation"
+    collection: "ValueRelation"
   }
 );
 
-const ListRelationModel = mongoose.model("ListRelation", ListRelationSchema);
-export default ListRelationModel;
+const ValueRelationModel = mongoose.model("ValueRelation", ValueRelationSchema);
+export default ValueRelationModel;
