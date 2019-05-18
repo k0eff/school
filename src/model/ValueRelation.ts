@@ -13,7 +13,8 @@ const ValueRelationSchema = new Schema(
     }
   },
   {
-    collection: "ValueRelation"
+    collection: "ValueRelation",
+    timestamps: true
   }
 );
 

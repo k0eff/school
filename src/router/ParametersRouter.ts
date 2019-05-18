@@ -72,7 +72,7 @@ router.get("/value/:paramId", (req: Request, res: Response) => {
   let paramId: string = req.params.paramId;
 
   Value.find({ paramId: paramId })
-    .populate("paramId")
+    .populate("paramId", "name")
     .then(params => {
       res.json(params);
     })

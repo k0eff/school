@@ -19,7 +19,8 @@ const ValueSchema: mongoose.Schema = new Schema(
     }
   },
   {
-    collection: "Value"
+    collection: "Value",
+    timestamps: true
   }
 );
 
