@@ -4,6 +4,7 @@ import Value from "../model/value";
 import Param from "../model/param";
 import ValueRelation from "../model/ValueRelation";
 import { Error } from "mongoose";
+import isEmpty from "../utils/is-empty";
 
 /**
  * @method Get /param data by id
@@ -43,7 +44,7 @@ router.get("/value/paramName/:paramName", (req: Request, res: Response) => {
   let paramName: string = req.params.paramName;
 
   Param.find({ name: paramName }).then(items => {
-    if (Array.isArray(items) && items.length > 0) {
+    if (!isEmpty(items)) {
       // Check if there is a such a param Name
       let paramId: string = "";
       items.map(item => {

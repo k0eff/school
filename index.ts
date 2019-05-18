@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
   res.send("It works!");
 });
 
-app.use("/params", ParametersRouter);
+app.use("/api/params", ParametersRouter);
 
 const port = process.env.PORT || envConfig.APPPORT || fallbackPort;
 app.listen(port, () =>
