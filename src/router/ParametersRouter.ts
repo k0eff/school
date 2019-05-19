@@ -145,4 +145,43 @@ router.post("/value", (req: Request, res: Response) => {
   });
 });
 
+/**
+ * @method Post value option
+ */
+router.post("/valueByParamName", (req: Request, res: Response) => {
+  let { value, descr, paramName } = req.body;
+
+  Param.find({ name: paramName }).then(LTItem => {
+    console.log(LTItem);
+    if (Array.isArray(LTItem) && LTItem.length > 0) {
+      // If given paramId exists - proceed with logic
+
+      let paramId = LTItem[0]._id;
+
+      Value.find({ paramId, value }).then(LItem => {
+        if (Array.isArray(LItem) && LItem.length < 1) {
+          // If given paramId and value DO NOT exist - proceed with logic. This means we will not make a duplicate value
+
+          let newValue = new Value({
+            value,
+            descr,
+            paramId
+          })
+            .save()
+            .then(item => {
+              res.json(item);
+            })
+            .catch(e => res.status(400).json(e));
+        } else {
+          res.status(400).json({
+            error: "There already is a Value with the same value and paramId "
+          });
+        }
+      });
+    } else {
+      res.status(400).json({ error: "Given paramId does not exist" });
+    }
+  });
+});
+
 export default router;
