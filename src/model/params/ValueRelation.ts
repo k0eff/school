@@ -18,5 +18,7 @@ const ValueRelationSchema = new Schema(
   }
 );
 
+//TODO: If any relations are needed, complete the module
+
 const ValueRelationModel = mongoose.model("ValueRelation", ValueRelationSchema);
 export default ValueRelationModel;

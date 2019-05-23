@@ -1,8 +1,8 @@
 import express, { Router, Request, Response } from "express";
 const router: Router = express.Router();
-import Value from "../model/value";
-import Param from "../model/param";
-import ValueRelation from "../model/ValueRelation";
+import Value from "../model/params/value";
+import Param from "../model/params/param";
+import ValueRelation from "../model/params/ValueRelation";
 import { Error } from "mongoose";
 import isEmpty from "../utils/is-empty";
 
@@ -151,8 +151,9 @@ router.post("/value", (req: Request, res: Response) => {
 router.post("/valueByParamName", (req: Request, res: Response) => {
   let { value, descr, paramName } = req.body;
 
+  console.log(value, descr, paramName);
+
   Param.find({ name: paramName }).then(LTItem => {
-    console.log(LTItem);
     if (Array.isArray(LTItem) && LTItem.length > 0) {
       // If given paramId exists - proceed with logic
 
