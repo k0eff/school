@@ -151,8 +151,6 @@ router.post("/value", (req: Request, res: Response) => {
 router.post("/valueByParamName", (req: Request, res: Response) => {
   let { value, descr, paramName } = req.body;
 
-  console.log(value, descr, paramName);
-
   Param.find({ name: paramName }).then(LTItem => {
     if (Array.isArray(LTItem) && LTItem.length > 0) {
       // If given paramId exists - proceed with logic

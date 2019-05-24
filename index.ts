@@ -5,6 +5,7 @@ import clc from "cli-color";
 import mongoose from "mongoose";
 
 import ParametersRouter from "./src/router/ParametersRouter";
+import EduPlanRouter from "./src/router/EduPlanRouter";
 
 const app = express();
 const fallbackPort = 4444;
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/params", ParametersRouter);
+app.use("/api/eduPlan", EduPlanRouter);
 
 const port = process.env.PORT || envConfig.APPPORT || fallbackPort;
 app.listen(port, () =>
