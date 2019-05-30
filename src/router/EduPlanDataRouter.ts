@@ -54,7 +54,7 @@ router.get("/:id?", (req: Request, res: Response) => {
  * @method Post /eduPlanData By Id
  */
 router.post("/:id?", (req: Request, res: Response) => {
-  let { name, classNumber, subject } = req.body;
+  let { classHours, classNumber, subject } = req.body;
   let eduPlan: any;
   if (req.params.id) {
     eduPlan = req.params.id;
@@ -76,7 +76,7 @@ router.post("/:id?", (req: Request, res: Response) => {
   if (isValid) {
     //nameValues are valid. we can insert/update now
 
-    let data = { eduPlan, classNumber, subject };
+    let data = { eduPlan, classNumber, subject, classHours };
 
     EduPlanData.findOneAndUpdate({ eduPlan }, data, { upsert: true })
       .then(() => res.json({ success: true }))
