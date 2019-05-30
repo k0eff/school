@@ -15,40 +15,49 @@ import { Error, Mongoose, mongo } from "mongoose";
 import isEmpty from "../utils/is-empty";
 
 /**
- * @method Get /eduPlanData by EduPlanDataId
+ * @method Get /eduPlanData by byEduPlanIdAndEduPlanDataId
  */
-router.get("/byEduPlanDataId/:id?", (req: Request, res: Response) => {
-  let id: string = "";
-  let promise: any;
+router.get(
+  "/byEduPlanIdAndEduPlanDataId/:eduPlanId?/:eduPlanDataId?",
+  (req: Request, res: Response) => {
+    let eduPlanId: string = "";
+    let eduPlanDataId: string = "";
+    let promise: any;
 
-  // get either all of EduPlanData or just a single one
-  if (!isEmpty(req.params.id)) {
-    id = req.params.id;
-    promise = EduPlanData.find({ _id: id });
-  } else {
-    promise = EduPlanData.find();
+    // get either all of EduPlanData based on given eduplan id and eduplandata id or just get all eduplandata
+    if (!isEmpty(req.params.eduPlanId)) {
+      if (!isEmpty(req.params.eduPlanDataId)) {
+        eduPlanId = req.params.eduPlanId;
+        eduPlanDataId = req.params.eduPlanDataId;
+        promise = EduPlanData.find({ _id: eduPlanDataId, eduPlan: eduPlanId });
+      } else {
+        promise = EduPlanData.find();
+      }
+    } else {
+      promise = EduPlanData.find();
+    }
+
+    promise
+      .populate({
+        path: "classNumber",
+        populate: { path: "paramId" }
+      })
+      .populate({
+        path: "subject",
+        populate: { path: "paramId" }
+      })
+      .populate({
+        path: "eduPlan"
+      })
+
+      .then(eduPlanDataResult => {
+        res.json(eduPlanDataResult);
+      })
+      .catch(e => {
+        res.status(400).json(e);
+      });
   }
-
-  promise
-    .populate({
-      path: "classNumber",
-      populate: { path: "paramId" }
-    })
-    .populate({
-      path: "subject",
-      populate: { path: "paramId" }
-    })
-    .populate({
-      path: "eduPlan"
-    })
-
-    .then(eduPlanDataResult => {
-      res.json(eduPlanDataResult);
-    })
-    .catch(e => {
-      res.status(400).json(e);
-    });
-});
+);
 
 /**
  * @method Get /eduPlanData by EduPlanId
