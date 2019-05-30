@@ -18,13 +18,13 @@ import isEmpty from "../utils/is-empty";
  * @method Get /eduPlanData By Id
  */
 router.get("/:id?", (req: Request, res: Response) => {
-  let id: string = "";
+  let eduPlan: string = "";
   let promise: any;
 
   // get either all of EduPlanData or just a single one
-  if (req.params.id) {
-    id = req.params.id;
-    promise = EduPlanData.find({ _id: id });
+  if (!isEmpty(req.params.id)) {
+    eduPlan = req.params.id;
+    promise = EduPlanData.find({ eduPlan });
   } else {
     promise = EduPlanData.find();
   }
