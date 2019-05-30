@@ -38,6 +38,9 @@ router.get("/:id?", (req: Request, res: Response) => {
       path: "subject",
       populate: { path: "paramId" }
     })
+    .populate({
+      path: "eduPlan"
+    })
 
     .then(eduPlanDataResult => {
       res.json(eduPlanDataResult);
@@ -52,11 +55,11 @@ router.get("/:id?", (req: Request, res: Response) => {
  */
 router.post("/:id?", (req: Request, res: Response) => {
   let { name, classNumber, subject } = req.body;
-  let id: any;
+  let eduPlan: any;
   if (req.params.id) {
-    id = req.params.id;
+    eduPlan = req.params.id;
   } else {
-    id = new mongo.ObjectId();
+    eduPlan = new mongo.ObjectId();
   }
 
   //gather all paramNameValuePairs that need to be validated
@@ -73,9 +76,9 @@ router.post("/:id?", (req: Request, res: Response) => {
   if (isValid) {
     //nameValues are valid. we can insert/update now
 
-    let data = { name, classNumber, subject };
+    let data = { eduPlan, classNumber, subject };
 
-    EduPlanData.findOneAndUpdate({ _id: id }, data, { upsert: true })
+    EduPlanData.findOneAndUpdate({ eduPlan }, data, { upsert: true })
       .then(() => res.json({ success: true }))
       .catch((e: Error) => res.status(400).json(e));
   } else {
