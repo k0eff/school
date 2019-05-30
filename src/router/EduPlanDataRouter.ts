@@ -15,9 +15,45 @@ import { Error, Mongoose, mongo } from "mongoose";
 import isEmpty from "../utils/is-empty";
 
 /**
- * @method Get /eduPlanData By Id
+ * @method Get /eduPlanData by EduPlanDataId
  */
-router.get("/:id?", (req: Request, res: Response) => {
+router.get("/byEduPlanDataId/:id?", (req: Request, res: Response) => {
+  let id: string = "";
+  let promise: any;
+
+  // get either all of EduPlanData or just a single one
+  if (!isEmpty(req.params.id)) {
+    id = req.params.id;
+    promise = EduPlanData.find({ _id: id });
+  } else {
+    promise = EduPlanData.find();
+  }
+
+  promise
+    .populate({
+      path: "classNumber",
+      populate: { path: "paramId" }
+    })
+    .populate({
+      path: "subject",
+      populate: { path: "paramId" }
+    })
+    .populate({
+      path: "eduPlan"
+    })
+
+    .then(eduPlanDataResult => {
+      res.json(eduPlanDataResult);
+    })
+    .catch(e => {
+      res.status(400).json(e);
+    });
+});
+
+/**
+ * @method Get /eduPlanData by EduPlanId
+ */
+router.get("/byEduPlanDataId/:id?", (req: Request, res: Response) => {
   let eduPlan: string = "";
   let promise: any;
 
