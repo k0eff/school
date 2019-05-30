@@ -51,7 +51,7 @@ router.get("/eduPlan/:id?", (req: Request, res: Response) => {
 router.post("/eduPlan/:id?", (req: Request, res: Response) => {
   let { name, schoolingYear, classLetter } = req.body;
   let id;
-  if (req.params.id) {
+  if (!isEmpty(req.params.id)) {
     id = req.params.id;
   } else {
     id = new mongo.ObjectId();
