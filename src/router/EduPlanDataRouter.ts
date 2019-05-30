@@ -53,7 +53,7 @@ router.get("/byEduPlanDataId/:id?", (req: Request, res: Response) => {
 /**
  * @method Get /eduPlanData by EduPlanId
  */
-router.get("/byEduPlanDataId/:id?", (req: Request, res: Response) => {
+router.get("/byEduPlanId/:id?", (req: Request, res: Response) => {
   let eduPlan: string = "";
   let promise: any;
 
