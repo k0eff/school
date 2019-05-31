@@ -98,15 +98,15 @@ router.get("/byEduPlanId/:id?", (req: Request, res: Response) => {
 /**
  * @method Post /eduPlanData By Id
  */
-router.post("/:id?", (req: Request, res: Response) => {
+router.post("/:eduPlanId/:eduPlanDataId?", (req: Request, res: Response) => {
   let { classHours, classNumber, subject } = req.body;
-  let eduPlan: any;
-  if (req.params.id) {
-    eduPlan = req.params.id;
+  let eduPlanDataId: any;
+  if (req.params.eduPlanDataId) {
+    eduPlanDataId = req.params.eduPlanDataId;
   } else {
-    eduPlan = new mongo.ObjectId();
+    eduPlanDataId = new mongo.ObjectId();
   }
-
+  let eduPlanId: any = req.params.eduPlanId;
   //gather all paramNameValuePairs that need to be validated
 
   let toBeValidated: Array<NameValueType> = [
@@ -121,9 +121,15 @@ router.post("/:id?", (req: Request, res: Response) => {
   if (isValid) {
     //nameValues are valid. we can insert/update now
 
-    let data = { eduPlan, classNumber, subject, classHours };
+    let data = { classNumber, subject, classHours };
 
-    EduPlanData.findOneAndUpdate({ eduPlan }, data, { upsert: true })
+    EduPlanData.findOneAndUpdate(
+      { eduPlan: eduPlanId, _id: eduPlanDataId },
+      data,
+      {
+        upsert: true
+      }
+    )
       .then(() => res.json({ success: true }))
       .catch((e: Error) => res.status(400).json(e));
   } else {
