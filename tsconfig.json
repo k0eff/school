@@ -3,12 +3,12 @@
     "target": "es6",
     "module": "commonjs",
     "outDir": "./build",
-    "moduleResolution": "Node",
     "sourceMap": true,
+    "moduleResolution": "Node",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowJs": true
   },
-  "include": ["src/**/*.ts"],
+  "include": ["*.ts", "*.js", "*.json", "*.json5"],
   "exclude": ["node_modules", ".vscode"]
 }
