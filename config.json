@@ -1,7 +1,7 @@
 {
   "APPPORT": 4444,
   "mongo": {
-    "connstring": "mongodb+srv://dbUser:AbZGPFX74bjs0Uwa@schoolcluster-wzuch.mongodb.net/School?retryWrites=true",
+    "connstring": "mongodb://localhost/School?retryWrites=true",
     "secretOrKey": "secret"
   }
 }
